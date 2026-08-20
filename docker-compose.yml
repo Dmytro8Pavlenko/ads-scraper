@@ -1,0 +1,147 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ads
+      POSTGRES_PASSWORD: ads
+      POSTGRES_DB: ads
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ads -d ads"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+  migrate:
+    build: .
+    command: ["node", "dist/migrate.js"]
+    environment:
+      DATABASE_URL: postgres://ads:ads@postgres:5432/ads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  scheduler-ios:
+    build: .
+    command: ["node", "dist/scheduler.js"]
+    environment:
+      DATABASE_URL: postgres://ads:ads@postgres:5432/ads
+      REDIS_URL: redis://redis:6379
+      CONTOUR: ios
+      SCHEDULER_BATCH_SIZE: "200"
+      SCHEDULER_INTERVAL: 60s
+      STORE_INTERVAL: 7d
+      QUEUE_LEASE: 10m
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  scheduler-android:
+    build: .
+    command: ["node", "dist/scheduler.js"]
+    environment:
+      DATABASE_URL: postgres://ads:ads@postgres:5432/ads
+      REDIS_URL: redis://redis:6379
+      CONTOUR: android
+      SCHEDULER_BATCH_SIZE: "200"
+      SCHEDULER_INTERVAL: 60s
+      STORE_INTERVAL: 7d
+      QUEUE_LEASE: 10m
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  scheduler-appads:
+    build: .
+    command: ["node", "dist/scheduler.js"]
+    environment:
+      DATABASE_URL: postgres://ads:ads@postgres:5432/ads
+      REDIS_URL: redis://redis:6379
+      CONTOUR: appads
+      SCHEDULER_BATCH_SIZE: "200"
+      SCHEDULER_INTERVAL: 60s
+      APP_ADS_INTERVAL: 24h
+      QUEUE_LEASE: 10m
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker-ios:
+    build: .
+    command: ["node", "dist/workers/store.js"]
+    environment:
+      DATABASE_URL: postgres://ads:ads@postgres:5432/ads
+      REDIS_URL: redis://redis:6379
+      CONTOUR: ios
+      WORKER_CONCURRENCY: "4"
+      LOOKUP_BATCH_SIZE: "50"
+      STORE_COUNTRY: us
+      STORE_INTERVAL: 7d
+      PROXY_URL: ""
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker-android:
+    build: .
+    command: ["node", "dist/workers/store.js"]
+    environment:
+      DATABASE_URL: postgres://ads:ads@postgres:5432/ads
+      REDIS_URL: redis://redis:6379
+      CONTOUR: android
+      WORKER_CONCURRENCY: "4"
+      LOOKUP_BATCH_SIZE: "1"
+      STORE_COUNTRY: us
+      STORE_INTERVAL: 7d
+      PROXY_URL: ""
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker-appads:
+    build: .
+    command: ["node", "dist/workers/appads.js"]
+    environment:
+      DATABASE_URL: postgres://ads:ads@postgres:5432/ads
+      REDIS_URL: redis://redis:6379
+      WORKER_CONCURRENCY: "8"
+      APP_ADS_INTERVAL: 24h
+      PROXY_URL: ""
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:

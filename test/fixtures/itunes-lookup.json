@@ -1,0 +1,23 @@
+{
+  "resultCount": 2,
+  "results": [
+    {
+      "trackId": 284882215,
+      "trackName": "Facebook",
+      "bundleId": "com.facebook.Facebook",
+      "artistName": "Meta Platforms, Inc.",
+      "artistId": 284882218,
+      "sellerUrl": "https://about.meta.com/",
+      "wrapperType": "software"
+    },
+    {
+      "trackId": 310633997,
+      "trackName": "WhatsApp Messenger",
+      "bundleId": "net.whatsapp.WhatsApp",
+      "artistName": "WhatsApp Inc.",
+      "artistId": 310633997,
+      "sellerUrl": "https://www.whatsapp.com/",
+      "wrapperType": "software"
+    }
+  ]
+}

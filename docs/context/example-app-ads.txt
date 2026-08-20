@@ -1,0 +1,21 @@
+# app-ads.txt example (IAB Tech Lab Authorized Sellers for Apps)
+# Hosted at: https://example-publisher.com/app-ads.txt
+# Format: <ad-system-domain>, <publisher-account-id>, DIRECT|RESELLER [, <certification-authority-id>]
+#
+# DIRECT    — publisher sells inventory through this system themselves
+# RESELLER  — publisher authorized another party to resell inventory
+
+google.com, pub-1234567890123456, DIRECT, f08c47fec0942fa0
+facebook.com, 123456789012345, DIRECT
+applovin.com, 98765, DIRECT, f5ab79d987654321
+unity.com, 555111, DIRECT
+
+# Authorized resellers
+google.com, pub-9988776655443322, RESELLER, f08c47fec0942fa0
+adcolony.com, 1abcdef, RESELLER
+inmobi.com, 24680, RESELLER, 83e75a7ae333ca9d
+
+# Variables (optional, also part of ads.txt / app-ads.txt spec)
+CONTACT=ads@example-publisher.com
+OWNERDOMAIN=example-publisher.com
+MANAGERDOMAIN=example-publisher.com
