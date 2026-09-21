@@ -70,7 +70,7 @@
 
 51. Наліпки «Пратчетт» [Електронний ресурс] // Видавництво Старого Лева. — Режим доступу: https://starylev.com.ua/nakleyky-vsl-pratcett (дата звернення: 21.09.2026).
 
-52. Референсний приклад наліпок із контурною різкою (die-cut) [Електронний ресурс / ілюстративне зображення формату]. — Архів автора. — 2026.
+52. Wildflower Blooms Vinyl Sticker Pack (Set of 8 Die Cuts) [Електронний ресурс] // Live Love Posh. — Режим доступу: https://www.liveloveposh.com/products/wildflower-blooms-die-cut-pack-set-of-8 (дата звернення: 21.09.2026).
 
 53. Значок металевий «Лев в окулярах» [Електронний ресурс] // Видавництво Старого Лева. — Режим доступу: https://starylev.com.ua/znacok-metal-vsl-lev-v-okulyarax (дата звернення: 21.09.2026).
 
@@ -87,6 +87,6 @@
 | 1.14 | `artcard_typical_gannon.jpg` | [49] |
 | 1.15 | `artcard_interesting_holly.jpg` | [50] |
 | 1.16 | `sticker_sheet_pratchett.jpg` | [51] |
-| 1.17 | `sticker_interesting_diecut_pastel.png` | [52] |
+| 1.17 | `sticker_interesting_diecut.jpg` | [52] |
 | 1.18 | `pin_typical_metal_vsl.jpg` | [53] |
 | 1.19 | `pin_interesting_wood.jpg` | [54] |
